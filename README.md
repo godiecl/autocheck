@@ -11,6 +11,8 @@ The homologation process, carried out at the Vehicle Control and Certification C
 
 The software development company BADCODE has started the construction of the AutoCheck system that will maintain a record of all vehicles that have been marketed in the city of Antofagasta, however, it has left the project half-built.
 
+![AutoCheck Screenshot](screenshot.png)
+
 ![Last Commit](https://img.shields.io/github/last-commit/godiecl/agenda/main?style=social&logo=github)
 
 ## Class diagram
