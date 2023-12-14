@@ -5,10 +5,10 @@
 package cl.ucn.disc.poo.autocheck.ui;
 
 import cl.ucn.disc.poo.autocheck.domain.Auto;
+import cl.ucn.disc.poo.autocheck.services.AutoCheck;
+import cl.ucn.disc.poo.autocheck.services.AutoCheckImpl;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Model of Auto.
@@ -18,9 +18,9 @@ import java.util.List;
 public final class AutoModel extends AbstractTableModel {
 
     /**
-     * FIXME: esta lista debe ser eliminada y reemplazada por una llamada al AutoCheckImpl.
+     * Controlador via singleton
      */
-    private final List<Auto> autos = new ArrayList<>();
+    private static final AutoCheck AUTOCHECK = new AutoCheckImpl();
 
     /**
      * The Columnas.
@@ -38,8 +38,7 @@ public final class AutoModel extends AbstractTableModel {
      * The Constructor.
      */
     public AutoModel() {
-        // FIXME: remover porque no es necesario una vez implementada la interfaz
-        this.autos.add(new Auto("FB-XS-44", "Suzuki", "Vitara", 2017, 76332, false));
+        // nothing here
     }
 
     /**
@@ -47,8 +46,7 @@ public final class AutoModel extends AbstractTableModel {
      */
     @Override
     public int getRowCount() {
-        // FIXME: obtener el tamanio de la lista de autos desde AutoCheckImpl.
-        return this.autos.size();
+        return AUTOCHECK.size();
     }
 
     /**
@@ -112,17 +110,14 @@ public final class AutoModel extends AbstractTableModel {
      * Return the Auto in the row.
      */
     public Auto getAuto(int rowIndex) {
-        // FIXME: obtener el auto desde AutoCheckImpl.
-        return this.autos.get(rowIndex);
+        return AUTOCHECK.getAuto(rowIndex);
     }
 
     /**
      * Save the Auto in the model.
      */
     public void saveAuto(final Auto auto) {
-        // FIXME: agregar el auto a la lista de autos de AutoCheckImpl.
-        // FIXME: si el auto ya existe, actualizarlo.
-        this.autos.add(auto);
+        AUTOCHECK.add(auto);
 
         // refresco la tabla
         this.fireTableDataChanged();

@@ -1,0 +1,106 @@
+@startuml
+
+skin rose
+set separator none
+title Diagrama de Clases: AutoCheck
+center footer Nota: los paquetes javax.swing / com.google.gson son opcionales.
+
+package cl.ucn.disc.poo.autocheck {
+
+    package com.google.gson {
+        class Gson {
+            ...
+        }
+    }
+
+    package javax.swing {
+        class JFrame {
+            ...
+        }
+        class JDialog {
+            ...
+        }
+    }
+
+    package utils {
+        class Dialog {
+            + {static} showError(component: Component, message: String): void
+            + {static} showMensaje(component: Component, message: String): void
+        }
+    }
+
+    package domain {
+
+        class Auto <<entity>> {
+            - anio: int
+            - homologado: boolean
+            - kilometraje: int
+            - marca: String
+            - modelo: String
+            - patente: String
+            + Auto(..)
+            + getAnio(): int
+            + isHomologado(): boolean
+            + getKilometraje(): int
+            + getMarca(): String
+            + getModelo(): String
+            + getPatente(): String
+        }
+
+    }
+
+    package services {
+
+        interface AutoCheck <<interface>> {
+            + add(auto: Auto): void
+            + get(posicion: int): Auto
+            + getAutos(): List<Auto>
+            + size(): int
+        }
+
+        class AutoCheckImpl <<service>> {
+            - {static} FILENAME: String
+            + AutoCheckImpl()
+            - load(): void
+            - save(): void
+
+        }
+        AutoCheckImpl ..|> AutoCheck
+        AutoCheckImpl o--> "*" Auto: - autos: List<Auto>
+        AutoCheckImpl --> "1" Gson: - GSON: Gson <<static>>
+
+    }
+
+    package ui {
+
+        class AutoModel {
+            - {static} COLUMNAS: String[]
+            + AutoModel()
+        }
+        AutoModel --> "1" AutoCheck: - autoCheck: AutoCheck
+        AutoModel ..> AutoCheckImpl: <<uses>>
+
+        class AutoCheckJFrame {
+            - {static} VERSION: String
+            + AutoCheckJFrame()
+            - showDialogAuto((auto: Auto): void
+        }
+        AutoCheckJFrame --> AutoModel: - autoModel: AutoModel
+        AutoCheckJFrame ..|> JFrame
+
+        class AutoDialog {
+            + AutoDialog(autoModel: AutoModel, auto: Auto)
+            - populateAuto(auto: Auto): void
+            - onOK(): void
+            - onCancel(): void
+            - createUIComponents(): void
+        }
+        AutoDialog <.. AutoCheckJFrame: <<uses>>
+        AutoDialog --> AutoModel: - autoModel: AutoModel
+        AutoDialog ..|> JDialog
+        AutoDialog ..> Dialog: <<uses>>
+    }
+
+}
+
+@enduml

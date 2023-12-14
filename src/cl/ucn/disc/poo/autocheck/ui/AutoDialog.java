@@ -103,11 +103,30 @@ public class AutoDialog extends JDialog {
      * Ok button
      */
     private void onOK() {
-        // FIXME: agregar las validaciones de los campos.
+
+        // validacion de patente
+        if (this.txtPatente.getText().contains(" ")) {
+            Dialog.showError(this, "Debe ingresar la Patente!");
+            return;
+        }
+
+        // validacion de marca
+        if (this.txtMarca.getText().isBlank()) {
+            Dialog.showError(this, "Debe ingresar la Marca!");
+            return;
+        }
+
+        // validacion de modelo
+        if (this.txtModelo.getText().isBlank()) {
+            Dialog.showError(this, "Debe ingresar el Modelo!");
+            return;
+        }
+
+        // construyo el auto
         Auto auto = new Auto(
-                this.txtPatente.getText(),
-                this.txtMarca.getText(),
-                this.txtModelo.getText(),
+                this.txtPatente.getText().strip(),
+                this.txtMarca.getText().strip(),
+                this.txtModelo.getText().strip(),
                 (int) this.spnAnio.getValue(),
                 (int) this.spnKilometraje.getValue(),
                 this.cbHomologado.isSelected()
